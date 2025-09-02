@@ -41,7 +41,7 @@
 .accessories-content h2 {
   font-size: 48px;
   font-weight: 300;
-  color: #333;
+  color: #000;
   margin: 0 0 30px 0;
   line-height: 1.2;
 }
@@ -49,7 +49,7 @@
 .divider {
   width: 60px;
   height: 2px;
-  background: #333;
+  background: #000;
   margin-bottom: 30px;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .shop-now-btn {
-  background: #333;
+  background: #000;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -75,7 +75,7 @@
 }
 
 .shop-now-btn:hover {
-  background: #f4a6cd;
+  background: #dc2626;
   transform: translateY(-2px);
 }
 

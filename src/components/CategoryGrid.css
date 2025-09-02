@@ -50,7 +50,7 @@
 }
 
 .category-overlay.colorful {
-  background: linear-gradient(45deg, #e91e63, #ffeb3b);
+  background: linear-gradient(45deg, #dc2626, #000);
   color: white;
 }
 
@@ -73,7 +73,7 @@
 
 .shop-btn {
   background: white;
-  color: #333;
+  color: #000;
   border: none;
   padding: 10px 20px;
   font-size: 12px;
@@ -85,7 +85,7 @@
 }
 
 .shop-btn:hover {
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
 }
 

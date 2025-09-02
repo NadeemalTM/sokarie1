@@ -24,14 +24,14 @@
 .logo h1 {
   font-size: 32px;
   font-weight: 300;
-  color: #333;
+  color: #000;
   margin: 0;
   letter-spacing: 2px;
   transition: color 0.3s ease;
 }
 
 .logo h1:hover {
-  color: #f4a6cd;
+  color: #dc2626;
 }
 
 .nav ul {
@@ -44,7 +44,7 @@
 
 .nav a {
   text-decoration: none;
-  color: #333;
+  color: #000;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 1px;
@@ -54,11 +54,11 @@
 }
 
 .nav a:hover {
-  color: #f4a6cd;
+  color: #dc2626;
 }
 
 .nav a.active {
-  color: #f4a6cd;
+  color: #dc2626;
 }
 
 .nav a.active::after {
@@ -68,7 +68,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: #f4a6cd;
+  background: #dc2626;
   border-radius: 1px;
 }
 
@@ -97,7 +97,7 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
   border-radius: 50%;
   width: 18px;
