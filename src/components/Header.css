@@ -86,7 +86,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 40px;
+  gap: 20px;
 }
 
 .nav li {
@@ -100,9 +100,12 @@
   font-size: 14px;
   letter-spacing: 1px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 8px 16px;
+  padding: 10px 20px;
   position: relative;
-  border-radius: 20px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-primary);
+  display: inline-block;
   overflow: hidden;
 }
 
@@ -124,26 +127,17 @@
 .nav a:hover {
   color: var(--accent-color);
   transform: translateY(-2px);
-  background: rgba(220, 38, 38, 0.05);
+  background: var(--hover-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
 }
 
 .nav a.active {
   color: var(--accent-color);
-  background: rgba(220, 38, 38, 0.1);
+  background: var(--hover-bg);
+  border-color: var(--accent-color);
   transform: translateY(-1px);
-}
-
-.nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  background: var(--accent-color);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
 }
 
 .header-icons {
