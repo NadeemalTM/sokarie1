@@ -1,8 +1,9 @@
 .accessories-section {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   padding: 100px 20px;
   position: relative;
   overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .accessories-section::before {
@@ -46,7 +47,7 @@
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #666;
+  color: var(--text-secondary);
   position: relative;
   transition: all 0.3s ease;
   padding: 5px 10px;
@@ -54,7 +55,7 @@
 }
 
 .accessories-tags span:hover {
-  color: #dc2626;
+  color: var(--accent-color);
   background: rgba(220, 38, 38, 0.1);
   transform: translateY(-2px);
 }
@@ -69,7 +70,7 @@
 .accessories-content h2 {
   font-size: 48px;
   font-weight: 300;
-  color: #000;
+  color: var(--text-primary);
   margin: 0 0 30px 0;
   line-height: 1.2;
   position: relative;
@@ -97,7 +98,7 @@
 .divider {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, #000, #dc2626);
+  background: linear-gradient(90deg, var(--text-primary), var(--accent-color));
   margin-bottom: 30px;
   border-radius: 1px;
   position: relative;
@@ -119,15 +120,15 @@
 .accessories-content p {
   font-size: 16px;
   line-height: 1.6;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 40px;
   max-width: 400px;
   animation: fadeInUp 0.8s ease-out 0.8s both;
 }
 
 .shop-now-btn {
-  background: #000;
-  color: white;
+  background: var(--text-primary);
+  color: var(--bg-primary);
   border: none;
   padding: 18px 36px;
   font-size: 14px;
@@ -149,7 +150,7 @@
   left: 50%;
   width: 0;
   height: 0;
-  background: #dc2626;
+  background: var(--accent-color);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: all 0.4s ease;

@@ -1,0 +1,149 @@
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle:hover {
+  background: var(--hover-bg);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle-track {
+  width: 50px;
+  height: 24px;
+  background: var(--border-color);
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .theme-toggle-track {
+  background: #374151;
+}
+
+.theme-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+}
+
+.dark-theme .theme-toggle-thumb {
+  transform: translateX(26px);
+  background: #1f2937;
+  border-color: #4b5563;
+}
+
+.theme-icon {
+  font-size: 12px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.theme-toggle:hover .theme-toggle-thumb {
+  transform: scale(1.1);
+}
+
+.dark-theme .theme-toggle:hover .theme-toggle-thumb {
+  transform: translateX(26px) scale(1.1);
+}
+
+/* Animation when switching themes */
+.theme-toggle-thumb {
+  animation: thumbBounce 0.3s ease-out;
+}
+
+@keyframes thumbBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.dark-theme .theme-toggle-thumb {
+  animation: thumbBounceRight 0.3s ease-out;
+}
+
+@keyframes thumbBounceRight {
+  0% {
+    transform: translateX(26px) scale(1);
+  }
+  50% {
+    transform: translateX(26px) scale(0.8);
+  }
+  100% {
+    transform: translateX(26px) scale(1);
+  }
+}
+
+/* Glow effect */
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  opacity: 0;
+  z-index: -1;
+}
+
+.theme-toggle:hover::before {
+  width: 60px;
+  height: 60px;
+  opacity: 0.1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .theme-toggle-track {
+    width: 44px;
+    height: 22px;
+  }
+  
+  .theme-toggle-thumb {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .dark-theme .theme-toggle-thumb {
+    transform: translateX(22px);
+  }
+  
+  .dark-theme .theme-toggle:hover .theme-toggle-thumb {
+    transform: translateX(22px) scale(1.1);
+  }
+  
+  .theme-icon {
+    font-size: 10px;
+  }
+}

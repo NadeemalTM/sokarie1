@@ -1,11 +1,16 @@
 .header {
-  background: #fff;
+  background: var(--bg-primary);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
   animation: slideInDown 0.5s ease-out;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark-theme .header {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .header::before {
@@ -62,7 +67,7 @@
 .logo h1 {
   font-size: 32px;
   font-weight: 300;
-  color: #000;
+  color: var(--text-primary);
   margin: 0;
   letter-spacing: 2px;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -71,7 +76,7 @@
 }
 
 .logo h1:hover {
-  color: #dc2626;
+  color: var(--accent-color);
   transform: scale(1.05);
   text-shadow: 2px 2px 4px rgba(220, 38, 38, 0.2);
 }
@@ -90,7 +95,7 @@
 
 .nav a {
   text-decoration: none;
-  color: #000;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 1px;
@@ -117,13 +122,13 @@
 }
 
 .nav a:hover {
-  color: #dc2626;
+  color: var(--accent-color);
   transform: translateY(-2px);
   background: rgba(220, 38, 38, 0.05);
 }
 
 .nav a.active {
-  color: #dc2626;
+  color: var(--accent-color);
   background: rgba(220, 38, 38, 0.1);
   transform: translateY(-1px);
 }
@@ -136,7 +141,7 @@
   transform: translateX(-50%);
   width: 6px;
   height: 6px;
-  background: #dc2626;
+  background: var(--accent-color);
   border-radius: 50%;
   animation: pulse 2s infinite;
 }
@@ -157,6 +162,7 @@
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   position: relative;
   overflow: hidden;
+  color: var(--text-primary);
 }
 
 .icon-btn::before {
@@ -180,7 +186,7 @@
 .icon-btn:hover {
   background-color: rgba(220, 38, 38, 0.1);
   transform: scale(1.1) rotate(5deg);
-  color: #dc2626;
+  color: var(--accent-color);
 }
 
 .icon-btn:active {
@@ -191,7 +197,7 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #dc2626;
+  background: var(--accent-color);
   color: white;
   border-radius: 50%;
   width: 18px;

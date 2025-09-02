@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import ThemeToggle from './ThemeToggle'
 import './Header.css'
 
 const Header = ({ onCartClick }) => {
@@ -60,6 +61,7 @@ const Header = ({ onCartClick }) => {
           </ul>
         </nav>
         <div className="header-icons">
+          <ThemeToggle />
           <button className="icon-btn" onClick={toggleSearch} title="Search">
             🔍
           </button>

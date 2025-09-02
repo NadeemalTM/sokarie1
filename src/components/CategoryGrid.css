@@ -3,6 +3,8 @@
   max-width: 1200px;
   margin: 0 auto;
   animation: fadeInUp 0.8s ease-out;
+  background: var(--bg-primary);
+  transition: background-color 0.3s ease;
 }
 
 .grid-container {
@@ -88,7 +90,7 @@
 }
 
 .category-overlay.colorful {
-  background: linear-gradient(45deg, #dc2626, #000);
+  background: linear-gradient(45deg, var(--accent-color), #000);
   color: white;
 }
 
