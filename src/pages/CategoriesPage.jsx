@@ -19,6 +19,14 @@ const CategoriesPage = ({ onAddToCart }) => {
 
   return (
     <div className="categories-page">
+      <div className="animated-background">
+        <div className="floating-shape triangle-1"></div>
+        <div className="floating-shape circle-1"></div>
+        <div className="floating-shape square-1"></div>
+        <div className="floating-shape triangle-2"></div>
+        <div className="floating-shape circle-2"></div>
+        <div className="floating-shape hexagon-1"></div>
+      </div>
       <div className="page-header">
         <h1>Shop by Categories</h1>
         <p>Discover our curated collection of fashion items across different categories</p>

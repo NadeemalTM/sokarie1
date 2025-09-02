@@ -43,6 +43,14 @@ const FeaturesPage = () => {
 
   return (
     <div className="features-page">
+      <div className="animated-background">
+        <div className="floating-shape wave-1"></div>
+        <div className="floating-shape wave-2"></div>
+        <div className="floating-shape star-1"></div>
+        <div className="floating-shape star-2"></div>
+        <div className="floating-shape spiral-1"></div>
+        <div className="floating-shape dot-pattern"></div>
+      </div>
       <div className="page-header">
         <h1>Why Choose Sokarie</h1>
         <p>Discover the features that make shopping with us an exceptional experience</p>

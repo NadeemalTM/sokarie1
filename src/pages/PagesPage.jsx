@@ -79,6 +79,15 @@ const PagesPage = () => {
 
   return (
     <div className="pages-page">
+      <div className="animated-background">
+        <div className="floating-shape grid-1"></div>
+        <div className="floating-shape grid-2"></div>
+        <div className="floating-shape connect-line-1"></div>
+        <div className="floating-shape connect-line-2"></div>
+        <div className="floating-shape node-1"></div>
+        <div className="floating-shape node-2"></div>
+        <div className="floating-shape node-3"></div>
+      </div>
       <div className="page-header">
         <h1>Site Pages</h1>
         <p>Explore all the helpful pages and resources available on our website</p>

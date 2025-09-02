@@ -79,6 +79,14 @@ const BlogPage = () => {
 
   return (
     <div className="blog-page">
+      <div className="animated-background">
+        <div className="floating-shape book-1"></div>
+        <div className="floating-shape book-2"></div>
+        <div className="floating-shape pen-1"></div>
+        <div className="floating-shape ink-drop-1"></div>
+        <div className="floating-shape ink-drop-2"></div>
+        <div className="floating-shape paper-plane"></div>
+      </div>
       <div className="page-header">
         <h1>Fashion Blog</h1>
         <p>Stay updated with the latest fashion trends, styling tips, and industry insights</p>

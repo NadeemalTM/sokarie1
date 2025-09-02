@@ -1,5 +1,121 @@
 .categories-page {
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.floating-shape {
+  position: absolute;
+  opacity: 0.08;
+  animation: geometricFloat 8s ease-in-out infinite;
+}
+
+.triangle-1 {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 87px solid var(--accent-color);
+  top: 15%;
+  left: 8%;
+  animation-delay: 0s;
+}
+
+.circle-1 {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, var(--accent-color), var(--accent-dark));
+  top: 25%;
+  right: 12%;
+  animation-delay: 1.5s;
+}
+
+.square-1 {
+  width: 60px;
+  height: 60px;
+  background: var(--accent-color);
+  transform: rotate(45deg);
+  bottom: 20%;
+  left: 15%;
+  animation-delay: 3s;
+}
+
+.triangle-2 {
+  width: 0;
+  height: 0;
+  border-left: 35px solid transparent;
+  border-right: 35px solid transparent;
+  border-top: 61px solid var(--accent-dark);
+  bottom: 30%;
+  right: 20%;
+  animation-delay: 4.5s;
+}
+
+.circle-2 {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, transparent, var(--accent-color));
+  border: 3px solid var(--accent-color);
+  top: 40%;
+  left: 3%;
+  animation-delay: 6s;
+}
+
+.hexagon-1 {
+  width: 100px;
+  height: 57px;
+  background: var(--accent-color);
+  position: relative;
+  margin: 28px 0;
+  top: 60%;
+  right: 5%;
+  animation-delay: 2s;
+}
+
+.hexagon-1:before,
+.hexagon-1:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+}
+
+.hexagon-1:before {
+  bottom: 100%;
+  border-bottom: 28px solid var(--accent-color);
+}
+
+.hexagon-1:after {
+  top: 100%;
+  border-top: 28px solid var(--accent-color);
+}
+
+@keyframes geometricFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-15px) rotate(90deg) scale(1.1);
+  }
+  50% {
+    transform: translateY(5px) rotate(180deg) scale(0.9);
+  }
+  75% {
+    transform: translateY(-10px) rotate(270deg) scale(1.05);
+  }
 }
 
 .page-header {
