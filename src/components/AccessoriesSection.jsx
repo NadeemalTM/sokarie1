@@ -14,6 +14,8 @@ const AccessoriesSection = ({ onAddToCart }) => {
 
   return (
     <section className="accessories-section">
+      <div className="accessories-floating-1"></div>
+      <div className="accessories-floating-2"></div>
       <div className="accessories-container">
         <div className="accessories-content">
           <div className="accessories-tags">

@@ -2,6 +2,7 @@
   padding: 80px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .grid-container {
@@ -14,23 +15,59 @@
 .category-item {
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: center;
+}
+
+.category-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(220, 38, 38, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.category-item:hover::before {
+  opacity: 1;
 }
 
 .category-item:hover {
-  transform: scale(1.02);
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.category-item:nth-child(odd) {
+  animation: fadeInLeft 0.6s ease-out;
+}
+
+.category-item:nth-child(even) {
+  animation: fadeInRight 0.6s ease-out;
 }
 
 .category-item.large {
   grid-row: span 2;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .category-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: all 0.4s ease;
+  filter: brightness(0.9);
+}
+
+.category-item:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.1) contrast(1.1);
 }
 
 .category-overlay {
@@ -38,11 +75,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
   color: white;
   padding: 30px 20px 20px;
   transform: translateY(100%);
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 3;
 }
 
 .category-item:hover .category-overlay {
@@ -54,6 +92,17 @@
   color: white;
 }
 
+.category-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: shimmer 2s infinite;
+}
+
 .category-label {
   font-size: 12px;
   font-weight: 600;
@@ -62,6 +111,7 @@
   opacity: 0.9;
   display: block;
   margin-bottom: 8px;
+  animation: fadeInUp 0.3s ease-out 0.1s both;
 }
 
 .category-overlay h3 {
@@ -69,34 +119,65 @@
   font-weight: 300;
   margin: 0 0 15px 0;
   line-height: 1.2;
+  animation: fadeInUp 0.3s ease-out 0.2s both;
 }
 
 .shop-btn {
   background: white;
   color: #000;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.3s ease-out 0.3s both;
+}
+
+.shop-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.2), transparent);
+  transition: left 0.3s ease;
+}
+
+.shop-btn:hover::before {
+  left: 100%;
 }
 
 .shop-btn:hover {
   background: #dc2626;
   color: white;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+.shop-btn:active {
+  transform: translateY(0) scale(1);
 }
 
 @media (max-width: 768px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 250px);
+    gap: 15px;
   }
   
   .category-item.large {
     grid-row: span 1;
+  }
+  
+  .category-item:hover {
+    transform: scale(1.02);
   }
 }
 
@@ -104,5 +185,13 @@
   .grid-container {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, 200px);
+  }
+  
+  .category-overlay {
+    padding: 20px 15px 15px;
+  }
+  
+  .category-overlay h3 {
+    font-size: 20px;
   }
 }

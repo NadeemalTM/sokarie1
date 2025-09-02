@@ -42,12 +42,15 @@ const Newsletter = () => {
           </form>
         )}
         
+        <p className="newsletter-disclaimer">
+          By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+        </p>
+        
         <div className="social-icons">
           <a href="#" aria-label="Facebook" onClick={(e) => {e.preventDefault(); alert('Facebook integration coming soon!')}}>📘</a>
           <a href="#" aria-label="Twitter" onClick={(e) => {e.preventDefault(); alert('Twitter integration coming soon!')}}>🐦</a>
           <a href="#" aria-label="Instagram" onClick={(e) => {e.preventDefault(); alert('Instagram integration coming soon!')}}>📷</a>
           <a href="#" aria-label="Pinterest" onClick={(e) => {e.preventDefault(); alert('Pinterest integration coming soon!')}}>📌</a>
-          <a href="#" aria-label="YouTube" onClick={(e) => {e.preventDefault(); alert('YouTube integration coming soon!')}}>📺</a>
           <a href="#" aria-label="Google Plus" onClick={(e) => {e.preventDefault(); alert('Google Plus integration coming soon!')}}>➕</a>
         </div>
       </div>

@@ -14,6 +14,9 @@ const Hero = ({ onAddToCart }) => {
 
   return (
     <section className="hero">
+      <div className="hero-floating-1"></div>
+      <div className="hero-floating-2"></div>
+      <div className="hero-floating-3"></div>
       <div className="hero-content">
         <div className="hero-text">
           <span className="hero-label">NEW FASHION</span>
