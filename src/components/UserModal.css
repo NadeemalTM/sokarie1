@@ -135,12 +135,12 @@
 }
 
 .tab.active {
-  color: #f4a6cd;
-  border-bottom-color: #f4a6cd;
+  color: #dc2626;
+  border-bottom-color: #dc2626;
 }
 
 .tab:hover {
-  color: #f4a6cd;
+  color: #dc2626;
 }
 
 .form-group {
@@ -167,12 +167,12 @@
 }
 
 .form-group input:focus {
-  border-color: #f4a6cd;
+  border-color: #dc2626;
 }
 
 .auth-btn {
   width: 100%;
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -195,14 +195,14 @@
 }
 
 .forgot-link {
-  color: #f4a6cd;
+  color: #dc2626;
   text-decoration: none;
   font-size: 14px;
   transition: color 0.3s ease;
 }
 
 .forgot-link:hover {
-  color: #e91e63;
+  color: #b91c1c;
   text-decoration: underline;
 }
 

@@ -3,7 +3,7 @@
 }
 
 .page-header {
-  background: linear-gradient(135deg, #f4a6cd, #f7c6d7);
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
   text-align: center;
   padding: 80px 20px 60px;
@@ -67,7 +67,7 @@
 }
 
 .filter-btn.active {
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
   box-shadow: 0 4px 12px rgba(244, 166, 205, 0.3);
 }
@@ -87,7 +87,7 @@
 }
 
 .featured-label {
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -166,7 +166,7 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
   padding: 6px 12px;
   border-radius: 12px;
@@ -210,7 +210,7 @@
 }
 
 .read-more-btn {
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -229,7 +229,7 @@
 }
 
 .newsletter-signup {
-  background: linear-gradient(135deg, #f4a6cd, #f7c6d7);
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
   text-align: center;
   padding: 60px 40px;

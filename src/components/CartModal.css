@@ -111,7 +111,7 @@
 
 .item-price {
   margin: 0;
-  color: #f4a6cd;
+  color: #dc2626;
   font-weight: 600;
 }
 
@@ -139,7 +139,7 @@
 }
 
 .quantity-controls button:hover:not(:disabled) {
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
 }
 
@@ -211,12 +211,12 @@
 }
 
 .checkout-btn {
-  background: #f4a6cd;
+  background: #dc2626;
   color: white;
 }
 
 .checkout-btn:hover {
-  background: #e91e63;
+  background: #b91c1c;
   transform: translateY(-2px);
 }
 

@@ -3,7 +3,7 @@
 }
 
 .page-header {
-  background: linear-gradient(135deg, #f4a6cd, #f7c6d7);
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
   text-align: center;
   padding: 80px 20px 60px;
@@ -50,7 +50,7 @@
 .feature-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
-  border-color: #f4a6cd;
+  border-color: #dc2626;
 }
 
 .feature-icon {
@@ -111,7 +111,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #f4a6cd;
+  color: #dc2626;
 }
 
 .feature-text p {
@@ -151,7 +151,7 @@
 .stat-number {
   font-size: 48px;
   font-weight: 700;
-  color: #f4a6cd;
+  color: #dc2626;
   margin-bottom: 8px;
 }
 

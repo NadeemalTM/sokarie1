@@ -62,7 +62,7 @@
 }
 
 .footer-section a:hover {
-  color: #f4a6cd;
+  color: #dc2626;
 }
 
 .footer-bottom {
@@ -85,8 +85,8 @@
 }
 
 .currency:hover {
-  border-color: #f4a6cd;
-  color: #f4a6cd;
+  border-color: #dc2626;
+  color: #dc2626;
 }
 
 @media (max-width: 768px) {
