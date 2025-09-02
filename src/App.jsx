@@ -12,6 +12,9 @@ import CategoriesPage from './pages/CategoriesPage'
 import FeaturesPage from './pages/FeaturesPage'
 import BlogPage from './pages/BlogPage'
 import PagesPage from './pages/PagesPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
+import HelpCenterPage from './pages/HelpCenterPage'
 import './App.css'
 
 function App() {
@@ -38,6 +41,9 @@ function App() {
             <Route path="/features" element={<FeaturesPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/pages" element={<PagesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/help" element={<HelpCenterPage />} />
           </Routes>
           
           <Footer />

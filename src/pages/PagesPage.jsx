@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './PagesPage.css'
 
 const PagesPage = () => {
@@ -7,13 +8,19 @@ const PagesPage = () => {
       title: 'About Us',
       description: 'Learn about our story, mission, and the team behind Sokarie Fashion.',
       icon: '👥',
-      action: () => alert('About Us page - Learn about our company history and values')
+      path: '/about'
     },
     {
       title: 'Contact',
       description: 'Get in touch with our customer service team for any inquiries.',
       icon: '📞',
-      action: () => alert('Contact page - Phone: +1-800-SOKARIE, Email: hello@sokarie.com')
+      path: '/contact'
+    },
+    {
+      title: 'Help Center',
+      description: 'Find answers to your questions and get the support you need.',
+      icon: '🆘',
+      path: '/help'
     },
     {
       title: 'Size Guide',
@@ -96,11 +103,15 @@ const PagesPage = () => {
       <div className="pages-container">
         <div className="pages-grid">
           {pageLinks.map((page, index) => (
-            <div key={index} className="page-card" onClick={page.action}>
+            <div key={index} className="page-card">
               <div className="page-icon">{page.icon}</div>
               <h3 className="page-title">{page.title}</h3>
               <p className="page-description">{page.description}</p>
-              <button className="page-btn">Visit Page</button>
+              {page.path ? (
+                <Link to={page.path} className="page-btn">Visit Page</Link>
+              ) : (
+                <button className="page-btn" onClick={page.action}>Visit Page</button>
+              )}
             </div>
           ))}
         </div>

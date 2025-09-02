@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './Footer.css'
 
 const Footer = () => {
@@ -18,17 +19,17 @@ const Footer = () => {
             <div className="footer-section">
               <h4>Company</h4>
               <ul>
-                <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('About Us')}}>About Us</a></li>
+                <li><Link to="/about">About Us</Link></li>
                 <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Careers')}}>Careers</a></li>
                 <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Press')}}>Press</a></li>
-                <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Blog')}}>Blog</a></li>
+                <li><Link to="/blog">Blog</Link></li>
               </ul>
             </div>
             <div className="footer-section">
               <h4>Support</h4>
               <ul>
-                <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Help Center')}}>Help Center</a></li>
-                <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Contact Us')}}>Contact Us</a></li>
+                <li><Link to="/help">Help Center</Link></li>
+                <li><Link to="/contact">Contact Us</Link></li>
                 <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Returns')}}>Returns</a></li>
                 <li><a href="#" onClick={(e) => {e.preventDefault(); handleLinkClick('Shipping')}}>Shipping</a></li>
               </ul>
