@@ -1,23 +1,62 @@
 import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import './Header.css'
 
 const Header = ({ onCartClick }) => {
   const { cartCount, toggleSearch, toggleUserMenu, user } = useApp()
+  const location = useLocation()
 
   return (
     <header className="header">
       <div className="container">
         <div className="logo">
-          <h1>Sokarie</h1>
+          <Link to="/">
+            <h1>Sokarie</h1>
+          </Link>
         </div>
         <nav className="nav">
           <ul>
-            <li><a href="#home">HOME</a></li>
-            <li><a href="#categories">CATEGORIES</a></li>
-            <li><a href="#features">FEATURES</a></li>
-            <li><a href="#blog">BLOG</a></li>
-            <li><a href="#pages">PAGES</a></li>
+            <li>
+              <Link 
+                to="/" 
+                className={location.pathname === '/' ? 'active' : ''}
+              >
+                HOME
+              </Link>
+            </li>
+            <li>
+              <Link 
+                to="/categories" 
+                className={location.pathname === '/categories' ? 'active' : ''}
+              >
+                CATEGORIES
+              </Link>
+            </li>
+            <li>
+              <Link 
+                to="/features" 
+                className={location.pathname === '/features' ? 'active' : ''}
+              >
+                FEATURES
+              </Link>
+            </li>
+            <li>
+              <Link 
+                to="/blog" 
+                className={location.pathname === '/blog' ? 'active' : ''}
+              >
+                BLOG
+              </Link>
+            </li>
+            <li>
+              <Link 
+                to="/pages" 
+                className={location.pathname === '/pages' ? 'active' : ''}
+              >
+                PAGES
+              </Link>
+            </li>
           </ul>
         </nav>
         <div className="header-icons">

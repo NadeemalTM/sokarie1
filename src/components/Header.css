@@ -16,12 +16,22 @@
   height: 70px;
 }
 
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .logo h1 {
   font-size: 32px;
   font-weight: 300;
   color: #333;
   margin: 0;
   letter-spacing: 2px;
+  transition: color 0.3s ease;
+}
+
+.logo h1:hover {
+  color: #f4a6cd;
 }
 
 .nav ul {
@@ -39,10 +49,27 @@
   font-size: 14px;
   letter-spacing: 1px;
   transition: color 0.3s ease;
+  padding: 8px 0;
+  position: relative;
 }
 
 .nav a:hover {
   color: #f4a6cd;
+}
+
+.nav a.active {
+  color: #f4a6cd;
+}
+
+.nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #f4a6cd;
+  border-radius: 1px;
 }
 
 .header-icons {
@@ -88,5 +115,9 @@
   
   .nav a {
     font-size: 12px;
+  }
+  
+  .logo h1 {
+    font-size: 28px;
   }
 }
