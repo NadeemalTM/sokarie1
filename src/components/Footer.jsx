@@ -46,6 +46,9 @@ const Footer = () => {
         </div>
         <div className="footer-bottom">
           <p>Copyright © 2025 Sokarie Fashion. All Rights Reserved.</p>
+          <div className="footer-admin-link">
+            <Link to="/admin/login" className="admin-link">Admin Portal</Link>
+          </div>
           <div className="currency">
             <span>USD</span>
           </div>

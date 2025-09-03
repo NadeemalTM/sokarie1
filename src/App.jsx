@@ -15,6 +15,10 @@ import PagesPage from './pages/PagesPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import HelpCenterPage from './pages/HelpCenterPage'
+import AdminLoginPage from './pages/AdminLoginPage'
+import AdminDashboard from './pages/AdminDashboard'
+import ProductManagement from './components/ProductManagement'
+import AdminUsersManagement from './components/AdminUsersManagement'
 import './App.css'
 
 function App() {
@@ -33,29 +37,40 @@ function App() {
     <AppProvider>
       <Router>
         <div className="App">
-          <Header onCartClick={() => setIsCartOpen(!isCartOpen)} />
-          
           <Routes>
-            <Route path="/" element={<HomePage onAddToCart={showNotification} />} />
-            <Route path="/categories" element={<CategoriesPage onAddToCart={showNotification} />} />
-            <Route path="/features" element={<FeaturesPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/pages" element={<PagesPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/help" element={<HelpCenterPage />} />
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/products" element={<ProductManagement />} />
+            <Route path="/admin/users" element={<AdminUsersManagement />} />
+            
+            {/* Public Routes */}
+            <Route path="/*" element={
+              <>
+                <Header onCartClick={() => setIsCartOpen(!isCartOpen)} />
+                <Routes>
+                  <Route path="/" element={<HomePage onAddToCart={showNotification} />} />
+                  <Route path="/categories" element={<CategoriesPage onAddToCart={showNotification} />} />
+                  <Route path="/features" element={<FeaturesPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/pages" element={<PagesPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/help" element={<HelpCenterPage />} />
+                </Routes>
+                <Footer />
+                <SearchModal />
+                <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+                <UserModal />
+                <Notification 
+                  message={notification.message}
+                  type={notification.type}
+                  isVisible={notification.isVisible}
+                  onClose={hideNotification}
+                />
+              </>
+            } />
           </Routes>
-          
-          <Footer />
-          <SearchModal />
-          <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-          <UserModal />
-          <Notification 
-            message={notification.message}
-            type={notification.type}
-            isVisible={notification.isVisible}
-            onClose={hideNotification}
-          />
         </div>
       </Router>
     </AppProvider>
