@@ -39,17 +39,81 @@ const CartModal = ({ isOpen, onClose }) => {
   }
 
   const handlePaymentChange = (e) => {
-    if (e.target.name === 'sameAsShipping') {
+    const { name, value } = e.target
+    
+    if (name === 'sameAsShipping') {
       setPaymentInfo({
         ...paymentInfo,
         sameAsShipping: e.target.checked
       })
+    } else if (name === 'cardNumber') {
+      // Format card number with spaces every 4 digits
+      const formatted = value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim()
+      if (formatted.replace(/\s/g, '').length <= 16) {
+        setPaymentInfo({
+          ...paymentInfo,
+          cardNumber: formatted
+        })
+      }
+    } else if (name === 'expiryDate') {
+      // Format expiry date as MM/YY
+      const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d{2})/, '$1/$2')
+      if (formatted.length <= 5) {
+        setPaymentInfo({
+          ...paymentInfo,
+          expiryDate: formatted
+        })
+      }
+    } else if (name === 'cvv') {
+      // Limit CVV to 4 digits
+      const formatted = value.replace(/\D/g, '')
+      if (formatted.length <= 4) {
+        setPaymentInfo({
+          ...paymentInfo,
+          cvv: formatted
+        })
+      }
     } else {
       setPaymentInfo({
         ...paymentInfo,
-        [e.target.name]: e.target.value
+        [name]: value
       })
     }
+  }
+
+  const getCardType = (cardNumber) => {
+    const number = cardNumber.replace(/\s/g, '')
+    if (/^4/.test(number)) return 'visa'
+    if (/^5[1-5]/.test(number) || /^2[2-7]/.test(number)) return 'mastercard'
+    if (/^3[47]/.test(number)) return 'amex'
+    if (/^6/.test(number)) return 'discover'
+    return 'unknown'
+  }
+
+  const validateCardNumber = (cardNumber) => {
+    const number = cardNumber.replace(/\s/g, '')
+    return number.length >= 13 && number.length <= 19
+  }
+
+  const validateExpiryDate = (expiryDate) => {
+    if (expiryDate.length !== 5) return false
+    const [month, year] = expiryDate.split('/')
+    const currentDate = new Date()
+    const currentYear = currentDate.getFullYear() % 100
+    const currentMonth = currentDate.getMonth() + 1
+    
+    const expMonth = parseInt(month)
+    const expYear = parseInt(year)
+    
+    if (expMonth < 1 || expMonth > 12) return false
+    if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) return false
+    
+    return true
+  }
+
+  const validateCVV = (cvv, cardType) => {
+    if (cardType === 'amex') return cvv.length === 4
+    return cvv.length === 3
   }
 
   const handleContinueToShipping = () => {
@@ -80,10 +144,28 @@ const CartModal = ({ isOpen, onClose }) => {
   const handleProcessPayment = async () => {
     // Validate payment form
     const requiredPaymentFields = ['cardNumber', 'expiryDate', 'cvv', 'cardholderName']
-    const isValid = requiredPaymentFields.every(field => paymentInfo[field].trim() !== '')
+    const isBasicValid = requiredPaymentFields.every(field => paymentInfo[field].trim() !== '')
     
-    if (!isValid) {
+    if (!isBasicValid) {
       alert('Please fill in all required payment fields.')
+      return
+    }
+
+    // Advanced validation
+    const cardType = getCardType(paymentInfo.cardNumber)
+    
+    if (!validateCardNumber(paymentInfo.cardNumber)) {
+      alert('Please enter a valid card number.')
+      return
+    }
+
+    if (!validateExpiryDate(paymentInfo.expiryDate)) {
+      alert('Please enter a valid expiry date (MM/YY).')
+      return
+    }
+
+    if (!validateCVV(paymentInfo.cvv, cardType)) {
+      alert(`Please enter a valid CVV (${cardType === 'amex' ? '4' : '3'} digits).`)
       return
     }
 
@@ -463,21 +545,21 @@ const CartModal = ({ isOpen, onClose }) => {
               <div className="payment-option">
                 <input type="radio" id="paypal" name="payment" />
                 <label htmlFor="paypal">
-                  <span className="payment-icon">🟦</span>
+                  <span className="payment-icon paypal-icon">🅿️</span>
                   PayPal
                 </label>
               </div>
               <div className="payment-option">
                 <input type="radio" id="apple" name="payment" />
                 <label htmlFor="apple">
-                  <span className="payment-icon">🍎</span>
+                  <span className="payment-icon apple-icon">🍎</span>
                   Apple Pay
                 </label>
               </div>
               <div className="payment-option">
                 <input type="radio" id="google" name="payment" />
                 <label htmlFor="google">
-                  <span className="payment-icon">🔵</span>
+                  <span className="payment-icon google-icon">🔵</span>
                   Google Pay
                 </label>
               </div>
@@ -493,14 +575,26 @@ const CartModal = ({ isOpen, onClose }) => {
                     value={paymentInfo.cardNumber}
                     onChange={handlePaymentChange}
                     placeholder="1234 5678 9012 3456" 
-                    maxLength="19"
+                    className={`card-number-input ${getCardType(paymentInfo.cardNumber)}`}
                   />
                   <div className="card-icons">
-                    <span className="card-icon visa">💳</span>
-                    <span className="card-icon mastercard">💳</span>
-                    <span className="card-icon amex">💳</span>
+                    <span className={`card-icon visa ${getCardType(paymentInfo.cardNumber) === 'visa' ? 'active' : ''}`}>
+                      VISA
+                    </span>
+                    <span className={`card-icon mastercard ${getCardType(paymentInfo.cardNumber) === 'mastercard' ? 'active' : ''}`}>
+                      MC
+                    </span>
+                    <span className={`card-icon amex ${getCardType(paymentInfo.cardNumber) === 'amex' ? 'active' : ''}`}>
+                      AMEX
+                    </span>
+                    <span className={`card-icon discover ${getCardType(paymentInfo.cardNumber) === 'discover' ? 'active' : ''}`}>
+                      DISC
+                    </span>
                   </div>
                 </div>
+                {paymentInfo.cardNumber && !validateCardNumber(paymentInfo.cardNumber) && (
+                  <span className="error-message">Please enter a valid card number</span>
+                )}
               </div>
               
               <div className="form-row">
@@ -512,8 +606,10 @@ const CartModal = ({ isOpen, onClose }) => {
                     value={paymentInfo.expiryDate}
                     onChange={handlePaymentChange}
                     placeholder="MM/YY" 
-                    maxLength="5"
                   />
+                  {paymentInfo.expiryDate && !validateExpiryDate(paymentInfo.expiryDate) && (
+                    <span className="error-message">Invalid expiry date</span>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>CVV *</label>
@@ -522,9 +618,13 @@ const CartModal = ({ isOpen, onClose }) => {
                     name="cvv"
                     value={paymentInfo.cvv}
                     onChange={handlePaymentChange}
-                    placeholder="123" 
-                    maxLength="4"
+                    placeholder={getCardType(paymentInfo.cardNumber) === 'amex' ? '1234' : '123'} 
                   />
+                  {paymentInfo.cvv && !validateCVV(paymentInfo.cvv, getCardType(paymentInfo.cardNumber)) && (
+                    <span className="error-message">
+                      {getCardType(paymentInfo.cardNumber) === 'amex' ? '4 digits required' : '3 digits required'}
+                    </span>
+                  )}
                 </div>
               </div>
               
@@ -535,7 +635,8 @@ const CartModal = ({ isOpen, onClose }) => {
                   name="cardholderName"
                   value={paymentInfo.cardholderName}
                   onChange={handlePaymentChange}
-                  placeholder="Name as it appears on card" 
+                  placeholder="Name as it appears on card"
+                  style={{ textTransform: 'uppercase' }}
                 />
               </div>
               
@@ -608,6 +709,25 @@ const CartModal = ({ isOpen, onClose }) => {
                   <div className="security-text">
                     <strong>Secure Payment</strong>
                     <p>Your payment information is encrypted and secure</p>
+                  </div>
+                </div>
+                
+                <div className="security-features">
+                  <div className="security-feature">
+                    <span className="security-feature-icon">🛡️</span>
+                    <span>SSL Encrypted</span>
+                  </div>
+                  <div className="security-feature">
+                    <span className="security-feature-icon">🔐</span>
+                    <span>PCI Compliant</span>
+                  </div>
+                  <div className="security-feature">
+                    <span className="security-feature-icon">✅</span>
+                    <span>Fraud Protected</span>
+                  </div>
+                  <div className="security-feature">
+                    <span className="security-feature-icon">💳</span>
+                    <span>All Cards Accepted</span>
                   </div>
                 </div>
               </div>
@@ -734,7 +854,8 @@ const CartModal = ({ isOpen, onClose }) => {
             <h4>💳 Payment Information</h4>
             <div className="confirmation-card">
               <p><strong>Payment Method:</strong> Credit Card</p>
-              <p><strong>Card:</strong> **** **** **** {paymentInfo.cardNumber.slice(-4)}</p>
+              <p><strong>Card:</strong> **** **** **** {paymentInfo.cardNumber.replace(/\s/g, '').slice(-4)}</p>
+              <p><strong>Card Type:</strong> {getCardType(paymentInfo.cardNumber).toUpperCase()}</p>
               <p><strong>Amount Charged:</strong> ${finalTotal.toFixed(2)}</p>
               <div className="payment-status">
                 <span className="status-badge success">✅ Payment Successful</span>
