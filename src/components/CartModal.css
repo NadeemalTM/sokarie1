@@ -24,6 +24,16 @@
   overflow: hidden;
   animation: slideUp 0.3s ease;
   border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Global smooth scrolling for all content areas */
+.cart-content,
+.shipping-content,
+.payment-content,
+.confirmation-content {
+  scroll-behavior: smooth;
 }
 
 /* Header */
@@ -35,6 +45,7 @@
   background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
   color: white;
   position: relative;
+  flex-shrink: 0;
 }
 
 .cart-header h3 {
@@ -83,8 +94,31 @@
 /* Cart Content */
 .cart-content {
   padding: 30px;
-  max-height: 70vh;
+  flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--border-color);
+  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+}
+
+/* Custom scrollbar for webkit browsers */
+.cart-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cart-content::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.cart-content::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.cart-content::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
 }
 
 /* Empty Cart */
@@ -344,6 +378,32 @@
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: start;
+  padding: 30px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--border-color);
+  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+}
+
+/* Custom scrollbar for shipping content */
+.shipping-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shipping-content::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.shipping-content::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.shipping-content::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
 }
 
 .shipping-form {
@@ -374,6 +434,7 @@
   transition: all 0.3s ease;
   background: var(--bg-color);
   color: var(--text-color);
+  box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -763,8 +824,31 @@
   grid-template-columns: 1fr 350px;
   gap: 40px;
   padding: 30px;
-  max-height: 70vh;
+  flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--border-color);
+  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+}
+
+/* Custom scrollbar for payment content */
+.payment-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.payment-content::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.payment-content::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.payment-content::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
 }
 
 .payment-sections {
@@ -1007,9 +1091,32 @@
 /* Confirmation Content */
 .confirmation-content {
   padding: 30px;
-  max-height: 70vh;
+  flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   text-align: center;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--border-color);
+  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+}
+
+/* Custom scrollbar for confirmation content */
+.confirmation-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.confirmation-content::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.confirmation-content::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.confirmation-content::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
 }
 
 .success-message {
