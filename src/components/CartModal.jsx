@@ -4,22 +4,52 @@ import './CartModal.css'
 
 const CartModal = ({ isOpen, onClose }) => {
   const { cartItems, cartTotal, cartCount, updateQuantity, removeFromCart } = useApp()
-  const [currentStep, setCurrentStep] = useState('cart') // cart, shipping, checkout
+  const [currentStep, setCurrentStep] = useState('cart') // cart, shipping, payment, confirmation
   const [shippingInfo, setShippingInfo] = useState({
     fullName: '',
     email: '',
     phone: '',
     address: '',
+    address2: '',
     city: '',
+    state: '',
     postalCode: '',
     country: 'United States'
   })
+  const [selectedShipping, setSelectedShipping] = useState('standard')
+  const [paymentInfo, setPaymentInfo] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    cardholderName: '',
+    billingAddress: '',
+    billingCity: '',
+    billingState: '',
+    billingPostalCode: '',
+    sameAsShipping: true
+  })
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [orderConfirmed, setOrderConfirmed] = useState(false)
 
   const handleInputChange = (e) => {
     setShippingInfo({
       ...shippingInfo,
       [e.target.name]: e.target.value
     })
+  }
+
+  const handlePaymentChange = (e) => {
+    if (e.target.name === 'sameAsShipping') {
+      setPaymentInfo({
+        ...paymentInfo,
+        sameAsShipping: e.target.checked
+      })
+    } else {
+      setPaymentInfo({
+        ...paymentInfo,
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
   const handleContinueToShipping = () => {
@@ -30,21 +60,78 @@ const CartModal = ({ isOpen, onClose }) => {
     setCurrentStep('cart')
   }
 
-  const handleContinueToCheckout = () => {
-    setCurrentStep('checkout')
+  const handleContinueToPayment = () => {
+    // Validate shipping form
+    const requiredFields = ['fullName', 'email', 'phone', 'address', 'city', 'postalCode']
+    const isValid = requiredFields.every(field => shippingInfo[field].trim() !== '')
+    
+    if (!isValid) {
+      alert('Please fill in all required shipping fields.')
+      return
+    }
+    
+    setCurrentStep('payment')
   }
 
   const handleBackToShipping = () => {
     setCurrentStep('shipping')
   }
 
-  const handlePlaceOrder = () => {
-    alert('Order placed successfully! This is a demo function.')
+  const handleProcessPayment = async () => {
+    // Validate payment form
+    const requiredPaymentFields = ['cardNumber', 'expiryDate', 'cvv', 'cardholderName']
+    const isValid = requiredPaymentFields.every(field => paymentInfo[field].trim() !== '')
+    
+    if (!isValid) {
+      alert('Please fill in all required payment fields.')
+      return
+    }
+
+    setIsProcessing(true)
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      setIsProcessing(false)
+      setOrderConfirmed(true)
+      setCurrentStep('confirmation')
+    }, 3000)
+  }
+
+  const handleNewOrder = () => {
     setCurrentStep('cart')
+    setOrderConfirmed(false)
+    setShippingInfo({
+      fullName: '',
+      email: '',
+      phone: '',
+      address: '',
+      address2: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      country: 'United States'
+    })
+    setPaymentInfo({
+      cardNumber: '',
+      expiryDate: '',
+      cvv: '',
+      cardholderName: '',
+      billingAddress: '',
+      billingCity: '',
+      billingState: '',
+      billingPostalCode: '',
+      sameAsShipping: true
+    })
     onClose()
   }
 
-  const shippingCost = cartTotal > 100 ? 0 : 15
+  const shippingOptions = {
+    standard: { name: 'Standard Shipping', time: '5-7 business days', price: cartTotal > 100 ? 0 : 15 },
+    express: { name: 'Express Shipping', time: '2-3 business days', price: 25 },
+    overnight: { name: 'Overnight Shipping', time: '1 business day', price: 45 }
+  }
+
+  const shippingCost = shippingOptions[selectedShipping].price
   const tax = cartTotal * 0.08
   const finalTotal = cartTotal + shippingCost + tax
 
@@ -147,13 +234,14 @@ const CartModal = ({ isOpen, onClose }) => {
   const renderShippingStep = () => (
     <>
       <div className="cart-header">
-        <button className="back-btn" onClick={handleBackToCart}>← Back</button>
+        <button className="back-btn" onClick={handleBackToCart}>← Back to Cart</button>
         <h3>Shipping Information</h3>
         <button className="close-btn" onClick={onClose}>✕</button>
       </div>
       
       <div className="shipping-content">
         <div className="shipping-form">
+          <h4>Contact Information</h4>
           <div className="form-group">
             <label>Full Name *</label>
             <input
@@ -168,7 +256,7 @@ const CartModal = ({ isOpen, onClose }) => {
           
           <div className="form-row">
             <div className="form-group">
-              <label>Email *</label>
+              <label>Email Address *</label>
               <input
                 type="email"
                 name="email"
@@ -179,7 +267,7 @@ const CartModal = ({ isOpen, onClose }) => {
               />
             </div>
             <div className="form-group">
-              <label>Phone *</label>
+              <label>Phone Number *</label>
               <input
                 type="tel"
                 name="phone"
@@ -191,15 +279,27 @@ const CartModal = ({ isOpen, onClose }) => {
             </div>
           </div>
           
+          <h4>Shipping Address</h4>
           <div className="form-group">
-            <label>Address *</label>
+            <label>Street Address *</label>
             <input
               type="text"
               name="address"
               value={shippingInfo.address}
               onChange={handleInputChange}
-              placeholder="Street address"
+              placeholder="123 Main Street"
               required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Apartment, suite, etc. (Optional)</label>
+            <input
+              type="text"
+              name="address2"
+              value={shippingInfo.address2}
+              onChange={handleInputChange}
+              placeholder="Apt 4B, Suite 100"
             />
           </div>
           
@@ -211,10 +311,23 @@ const CartModal = ({ isOpen, onClose }) => {
                 name="city"
                 value={shippingInfo.city}
                 onChange={handleInputChange}
-                placeholder="City"
+                placeholder="New York"
                 required
               />
             </div>
+            <div className="form-group">
+              <label>State/Province</label>
+              <input
+                type="text"
+                name="state"
+                value={shippingInfo.state}
+                onChange={handleInputChange}
+                placeholder="NY"
+              />
+            </div>
+          </div>
+          
+          <div className="form-row">
             <div className="form-group">
               <label>Postal Code *</label>
               <input
@@ -222,62 +335,69 @@ const CartModal = ({ isOpen, onClose }) => {
                 name="postalCode"
                 value={shippingInfo.postalCode}
                 onChange={handleInputChange}
-                placeholder="12345"
+                placeholder="10001"
                 required
               />
             </div>
+            <div className="form-group">
+              <label>Country *</label>
+              <select
+                name="country"
+                value={shippingInfo.country}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Australia">Australia</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Japan">Japan</option>
+                <option value="South Korea">South Korea</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
           
-          <div className="form-group">
-            <label>Country *</label>
-            <select
-              name="country"
-              value={shippingInfo.country}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="United States">United States</option>
-              <option value="Canada">Canada</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Australia">Australia</option>
-              <option value="Germany">Germany</option>
-              <option value="France">France</option>
-              <option value="Other">Other</option>
-            </select>
+          <div className="special-instructions">
+            <h4>Special Instructions</h4>
+            <textarea
+              placeholder="Any special delivery instructions? (Optional)"
+              rows="3"
+            />
           </div>
         </div>
         
         <div className="shipping-options">
-          <h4>Shipping Options</h4>
-          <div className="shipping-option">
-            <input type="radio" id="standard" name="shipping" defaultChecked />
-            <label htmlFor="standard">
-              <div className="option-info">
-                <span className="option-name">Standard Shipping</span>
-                <span className="option-time">5-7 business days</span>
-              </div>
-              <span className="option-price">{cartTotal > 100 ? 'FREE' : '$15.00'}</span>
-            </label>
-          </div>
-          <div className="shipping-option">
-            <input type="radio" id="express" name="shipping" />
-            <label htmlFor="express">
-              <div className="option-info">
-                <span className="option-name">Express Shipping</span>
-                <span className="option-time">2-3 business days</span>
-              </div>
-              <span className="option-price">$25.00</span>
-            </label>
-          </div>
-          <div className="shipping-option">
-            <input type="radio" id="overnight" name="shipping" />
-            <label htmlFor="overnight">
-              <div className="option-info">
-                <span className="option-name">Overnight Shipping</span>
-                <span className="option-time">1 business day</span>
-              </div>
-              <span className="option-price">$45.00</span>
-            </label>
+          <h4>Shipping Method</h4>
+          {Object.entries(shippingOptions).map(([key, option]) => (
+            <div key={key} className="shipping-option">
+              <input 
+                type="radio" 
+                id={key} 
+                name="shipping" 
+                value={key}
+                checked={selectedShipping === key}
+                onChange={(e) => setSelectedShipping(e.target.value)}
+              />
+              <label htmlFor={key}>
+                <div className="option-info">
+                  <span className="option-name">{option.name}</span>
+                  <span className="option-time">{option.time}</span>
+                </div>
+                <span className="option-price">
+                  {option.price === 0 ? 'FREE' : `$${option.price.toFixed(2)}`}
+                </span>
+              </label>
+            </div>
+          ))}
+          
+          <div className="shipping-note">
+            <p>📦 All orders are carefully packaged and insured</p>
+            <p>🚚 Track your package with real-time updates</p>
+            <p>📍 Signature required for orders over $200</p>
           </div>
         </div>
         
@@ -285,78 +405,218 @@ const CartModal = ({ isOpen, onClose }) => {
           <button className="back-to-cart-btn" onClick={handleBackToCart}>
             Back to Cart
           </button>
-          <button className="continue-checkout-btn" onClick={handleContinueToCheckout}>
-            Continue to Checkout
+          <button className="continue-payment-btn" onClick={handleContinueToPayment}>
+            Continue to Payment
           </button>
         </div>
       </div>
     </>
   )
 
-  const renderCheckoutStep = () => (
+  const renderPaymentStep = () => (
     <>
       <div className="cart-header">
-        <button className="back-btn" onClick={handleBackToShipping}>← Back</button>
-        <h3>Checkout</h3>
+        <button className="back-btn" onClick={handleBackToShipping}>← Back to Shipping</button>
+        <h3>Payment Information</h3>
         <button className="close-btn" onClick={onClose}>✕</button>
       </div>
       
-      <div className="checkout-content">
-        <div className="checkout-sections">
+      <div className="payment-content">
+        <div className="payment-sections">
           <div className="shipping-summary">
-            <h4>Shipping Address</h4>
+            <h4>📦 Shipping Details</h4>
             <div className="address-card">
               <p><strong>{shippingInfo.fullName}</strong></p>
               <p>{shippingInfo.address}</p>
-              <p>{shippingInfo.city}, {shippingInfo.postalCode}</p>
+              {shippingInfo.address2 && <p>{shippingInfo.address2}</p>}
+              <p>{shippingInfo.city}, {shippingInfo.state} {shippingInfo.postalCode}</p>
               <p>{shippingInfo.country}</p>
-              <p>{shippingInfo.email} • {shippingInfo.phone}</p>
+              <div className="contact-info">
+                <p>📧 {shippingInfo.email}</p>
+                <p>📱 {shippingInfo.phone}</p>
+              </div>
               <button className="edit-btn" onClick={handleBackToShipping}>Edit</button>
+            </div>
+            
+            <div className="shipping-method">
+              <h5>Shipping Method</h5>
+              <div className="selected-shipping">
+                <span>{shippingOptions[selectedShipping].name}</span>
+                <span>{shippingOptions[selectedShipping].time}</span>
+                <span className="shipping-price">
+                  {shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}
+                </span>
+              </div>
             </div>
           </div>
           
           <div className="payment-section">
-            <h4>Payment Method</h4>
+            <h4>💳 Payment Method</h4>
             <div className="payment-options">
               <div className="payment-option">
                 <input type="radio" id="card" name="payment" defaultChecked />
-                <label htmlFor="card">Credit/Debit Card</label>
+                <label htmlFor="card">
+                  <span className="payment-icon">💳</span>
+                  Credit/Debit Card
+                </label>
               </div>
               <div className="payment-option">
                 <input type="radio" id="paypal" name="payment" />
-                <label htmlFor="paypal">PayPal</label>
+                <label htmlFor="paypal">
+                  <span className="payment-icon">🟦</span>
+                  PayPal
+                </label>
               </div>
               <div className="payment-option">
                 <input type="radio" id="apple" name="payment" />
-                <label htmlFor="apple">Apple Pay</label>
+                <label htmlFor="apple">
+                  <span className="payment-icon">🍎</span>
+                  Apple Pay
+                </label>
+              </div>
+              <div className="payment-option">
+                <input type="radio" id="google" name="payment" />
+                <label htmlFor="google">
+                  <span className="payment-icon">🔵</span>
+                  Google Pay
+                </label>
               </div>
             </div>
             
             <div className="card-form">
               <div className="form-group">
-                <label>Card Number</label>
-                <input type="text" placeholder="1234 5678 9012 3456" />
+                <label>Card Number *</label>
+                <div className="card-input-wrapper">
+                  <input 
+                    type="text" 
+                    name="cardNumber"
+                    value={paymentInfo.cardNumber}
+                    onChange={handlePaymentChange}
+                    placeholder="1234 5678 9012 3456" 
+                    maxLength="19"
+                  />
+                  <div className="card-icons">
+                    <span className="card-icon visa">💳</span>
+                    <span className="card-icon mastercard">💳</span>
+                    <span className="card-icon amex">💳</span>
+                  </div>
+                </div>
               </div>
+              
               <div className="form-row">
                 <div className="form-group">
-                  <label>Expiry Date</label>
-                  <input type="text" placeholder="MM/YY" />
+                  <label>Expiry Date *</label>
+                  <input 
+                    type="text" 
+                    name="expiryDate"
+                    value={paymentInfo.expiryDate}
+                    onChange={handlePaymentChange}
+                    placeholder="MM/YY" 
+                    maxLength="5"
+                  />
                 </div>
                 <div className="form-group">
-                  <label>CVV</label>
-                  <input type="text" placeholder="123" />
+                  <label>CVV *</label>
+                  <input 
+                    type="text" 
+                    name="cvv"
+                    value={paymentInfo.cvv}
+                    onChange={handlePaymentChange}
+                    placeholder="123" 
+                    maxLength="4"
+                  />
                 </div>
               </div>
+              
               <div className="form-group">
-                <label>Cardholder Name</label>
-                <input type="text" placeholder="Name on card" />
+                <label>Cardholder Name *</label>
+                <input 
+                  type="text" 
+                  name="cardholderName"
+                  value={paymentInfo.cardholderName}
+                  onChange={handlePaymentChange}
+                  placeholder="Name as it appears on card" 
+                />
+              </div>
+              
+              <div className="billing-address-section">
+                <div className="form-group checkbox-group">
+                  <label className="checkbox-label">
+                    <input 
+                      type="checkbox" 
+                      name="sameAsShipping"
+                      checked={paymentInfo.sameAsShipping}
+                      onChange={handlePaymentChange}
+                    />
+                    <span className="checkmark">✓</span>
+                    Billing address same as shipping address
+                  </label>
+                </div>
+                
+                {!paymentInfo.sameAsShipping && (
+                  <>
+                    <h5>Billing Address</h5>
+                    <div className="form-group">
+                      <label>Address</label>
+                      <input 
+                        type="text" 
+                        name="billingAddress"
+                        value={paymentInfo.billingAddress}
+                        onChange={handlePaymentChange}
+                        placeholder="Billing street address" 
+                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>City</label>
+                        <input 
+                          type="text" 
+                          name="billingCity"
+                          value={paymentInfo.billingCity}
+                          onChange={handlePaymentChange}
+                          placeholder="City" 
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>State</label>
+                        <input 
+                          type="text" 
+                          name="billingState"
+                          value={paymentInfo.billingState}
+                          onChange={handlePaymentChange}
+                          placeholder="State" 
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label>Postal Code</label>
+                      <input 
+                        type="text" 
+                        name="billingPostalCode"
+                        value={paymentInfo.billingPostalCode}
+                        onChange={handlePaymentChange}
+                        placeholder="Postal code" 
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              
+              <div className="security-info">
+                <div className="security-badge">
+                  <span className="security-icon">🔒</span>
+                  <div className="security-text">
+                    <strong>Secure Payment</strong>
+                    <p>Your payment information is encrypted and secure</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         
         <div className="order-summary">
-          <h4>Order Summary</h4>
+          <h4>📋 Order Summary</h4>
           <div className="summary-items">
             {cartItems.map(item => (
               <div key={item.id} className="summary-item">
@@ -376,11 +636,11 @@ const CartModal = ({ isOpen, onClose }) => {
               <span>${cartTotal.toFixed(2)}</span>
             </div>
             <div className="summary-row">
-              <span>Shipping:</span>
-              <span>${shippingCost.toFixed(2)}</span>
+              <span>Shipping ({shippingOptions[selectedShipping].name}):</span>
+              <span>{shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}</span>
             </div>
             <div className="summary-row">
-              <span>Tax:</span>
+              <span>Tax (8%):</span>
               <span>${tax.toFixed(2)}</span>
             </div>
             <div className="summary-row total">
@@ -388,14 +648,157 @@ const CartModal = ({ isOpen, onClose }) => {
               <span>${finalTotal.toFixed(2)}</span>
             </div>
           </div>
+          
+          <div className="payment-guarantee">
+            <div className="guarantee-item">
+              <span>🛡️</span>
+              <span>Money-back guarantee</span>
+            </div>
+            <div className="guarantee-item">
+              <span>🔄</span>
+              <span>Easy returns within 30 days</span>
+            </div>
+            <div className="guarantee-item">
+              <span>📞</span>
+              <span>24/7 customer support</span>
+            </div>
+          </div>
         </div>
         
-        <div className="checkout-actions">
+        <div className="payment-actions">
           <button className="back-to-shipping-btn" onClick={handleBackToShipping}>
             Back to Shipping
           </button>
-          <button className="place-order-btn" onClick={handlePlaceOrder}>
-            Place Order • ${finalTotal.toFixed(2)}
+          <button 
+            className={`process-payment-btn ${isProcessing ? 'processing' : ''}`}
+            onClick={handleProcessPayment}
+            disabled={isProcessing}
+          >
+            {isProcessing ? (
+              <>
+                <span className="spinner">⏳</span>
+                Processing Payment...
+              </>
+            ) : (
+              <>
+                <span className="lock-icon">🔒</span>
+                Pay ${finalTotal.toFixed(2)}
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </>
+  )
+
+  const renderConfirmationStep = () => (
+    <>
+      <div className="cart-header">
+        <h3>🎉 Order Confirmed!</h3>
+        <button className="close-btn" onClick={onClose}>✕</button>
+      </div>
+      
+      <div className="confirmation-content">
+        <div className="success-message">
+          <div className="success-icon">✅</div>
+          <h2>Thank you for your order!</h2>
+          <p>Your payment has been processed successfully.</p>
+          
+          <div className="order-details">
+            <div className="order-number">
+              <strong>Order #SK-{Date.now().toString().slice(-6)}</strong>
+            </div>
+            <div className="order-total">
+              <strong>Total: ${finalTotal.toFixed(2)}</strong>
+            </div>
+          </div>
+        </div>
+        
+        <div className="confirmation-sections">
+          <div className="shipping-confirmation">
+            <h4>📦 Shipping Information</h4>
+            <div className="confirmation-card">
+              <p><strong>{shippingInfo.fullName}</strong></p>
+              <p>{shippingInfo.address}</p>
+              {shippingInfo.address2 && <p>{shippingInfo.address2}</p>}
+              <p>{shippingInfo.city}, {shippingInfo.state} {shippingInfo.postalCode}</p>
+              <p>{shippingInfo.country}</p>
+              <div className="shipping-method-confirm">
+                <p><strong>Shipping Method:</strong> {shippingOptions[selectedShipping].name}</p>
+                <p><strong>Estimated Delivery:</strong> {shippingOptions[selectedShipping].time}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="payment-confirmation">
+            <h4>💳 Payment Information</h4>
+            <div className="confirmation-card">
+              <p><strong>Payment Method:</strong> Credit Card</p>
+              <p><strong>Card:</strong> **** **** **** {paymentInfo.cardNumber.slice(-4)}</p>
+              <p><strong>Amount Charged:</strong> ${finalTotal.toFixed(2)}</p>
+              <div className="payment-status">
+                <span className="status-badge success">✅ Payment Successful</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="order-items">
+          <h4>📋 Items Ordered</h4>
+          <div className="confirmation-items">
+            {cartItems.map(item => (
+              <div key={item.id} className="confirmation-item">
+                <img src={item.image} alt={item.name} />
+                <div className="item-details">
+                  <h5>{item.name}</h5>
+                  <p>Quantity: {item.quantity}</p>
+                  <p className="item-price">${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div className="next-steps">
+          <h4>📧 What's Next?</h4>
+          <div className="next-steps-list">
+            <div className="step">
+              <span className="step-icon">📧</span>
+              <div className="step-content">
+                <strong>Confirmation Email</strong>
+                <p>A detailed receipt has been sent to {shippingInfo.email}</p>
+              </div>
+            </div>
+            <div className="step">
+              <span className="step-icon">📦</span>
+              <div className="step-content">
+                <strong>Order Processing</strong>
+                <p>Your order will be processed within 1-2 business days</p>
+              </div>
+            </div>
+            <div className="step">
+              <span className="step-icon">🚚</span>
+              <div className="step-content">
+                <strong>Shipping Updates</strong>
+                <p>You'll receive tracking information via email and SMS</p>
+              </div>
+            </div>
+            <div className="step">
+              <span className="step-icon">📞</span>
+              <div className="step-content">
+                <strong>Customer Support</strong>
+                <p>Contact us 24/7 if you have any questions about your order</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="confirmation-actions">
+          <button className="track-order-btn">
+            📍 Track Your Order
+          </button>
+          <button className="continue-shopping-btn" onClick={handleNewOrder}>
+            Continue Shopping
           </button>
         </div>
       </div>
@@ -407,7 +810,8 @@ const CartModal = ({ isOpen, onClose }) => {
       <div className="cart-modal" onClick={e => e.stopPropagation()}>
         {currentStep === 'cart' && renderCartStep()}
         {currentStep === 'shipping' && renderShippingStep()}
-        {currentStep === 'checkout' && renderCheckoutStep()}
+        {currentStep === 'payment' && renderPaymentStep()}
+        {currentStep === 'confirmation' && renderConfirmationStep()}
       </div>
     </div>
   )
